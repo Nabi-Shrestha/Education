@@ -1,8 +1,7 @@
-
 document.getElementById('educationForm').addEventListener('submit', function(event) {
     event.preventDefault(); 
 
-
+    
     var level = document.getElementById('level').value.trim();
     var university = document.getElementById('university').value.trim();
     var address = document.getElementById('address').value.trim();
@@ -10,7 +9,7 @@ document.getElementById('educationForm').addEventListener('submit', function(eve
     var gpa = document.getElementById('gpa').value.trim();
     var passedYear = document.getElementById('passedYear').value.trim();
 
-  
+    
     var errorMessage = '';
     if (!level) {
         errorMessage += 'Please enter your level.\n';
@@ -24,11 +23,11 @@ document.getElementById('educationForm').addEventListener('submit', function(eve
     if (!board) {
         errorMessage += 'Please enter your board.\n';
     }
-    if (!gpa) {
-        errorMessage += 'Please enter your GPA.\n';
+    if (!gpa || isNaN(gpa) || parseFloat(gpa) > 4.0 || parseFloat(gpa) < 0) {
+        errorMessage += 'Please enter a valid GPA (0.0 - 4.0).\n';
     }
-    if (!passedYear) {
-        errorMessage += 'Please enter your passed year.\n';
+    if (!passedYear || isNaN(passedYear) || parseInt(passedYear) > 2024 || parseInt(passedYear) < 1900) {
+        errorMessage += 'Please enter a valid passed year (not greater than 2024).\n';
     }
 
     if (errorMessage) {
@@ -73,6 +72,7 @@ function addRow(level, university, address, board, gpa, passedYear) {
     cellGPA.innerHTML = gpa;
     cellPassedYear.innerHTML = passedYear;
 
+    
     var editButton = document.createElement('button');
     editButton.innerHTML = 'Edit';
     editButton.className = 'edit-button';
@@ -99,12 +99,12 @@ function updateRow(row, level, university, address, board, gpa, passedYear) {
     row.cells[5].innerHTML = gpa;
     row.cells[6].innerHTML = passedYear;
 
-  
+    
     currentEditingRow = null;
 }
 
 function editRow(row) {
-   
+    
     document.getElementById('level').value = row.cells[1].innerHTML;
     document.getElementById('university').value = row.cells[2].innerHTML;
     document.getElementById('address').value = row.cells[3].innerHTML;
